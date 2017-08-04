@@ -4,6 +4,8 @@ var CHANNEL_SECRET = "4728fca7bd18f9616a1ee360c080b9ac"
 var USER_ID = "Ucd0a0eaf7095b056a8b497f2e69c38bc"
 const line = require('@line/bot-sdk');
 const express = require('express');
+const middleware = require('@line/bot-sdk').middleware
+
 
 // create LINE SDK config from env variables
 const config = {
