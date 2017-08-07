@@ -22,23 +22,13 @@ const app = express();
 
 // register a webhook handler with middleware
 // about the middleware, please refer to doc
-
-app.get('/', function(req, res) {
-
-    res.status(200).send('hi');
-
-});
-
-app.use(middleware(config))
-
 app.post('/webhook', line.middleware(config), (req, res) => {
   Promise
     .all(req.body.events.map(handleEvent))
     .then((result) => res.json(result));
+});
 
-})
-
-
+// event handler
 function handleEvent(event) {
   if (event.type !== 'message' || event.message.type !== 'text') {
     // ignore non-text-message event
@@ -46,17 +36,11 @@ function handleEvent(event) {
   }
 
   // create a echoing text message
-  const echo = { type: 'text', text: "ai kwai jin" };
+  const echo = { type: 'text', text: event.message.text };
 
   // use reply API
   return client.replyMessage(event.replyToken, echo);
 }
-
-
-
-
-
-// event handler
 
 
 // listen on port
