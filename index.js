@@ -34,9 +34,12 @@ function handleEvent(event) {
     // ignore non-text-message event
     return Promise.resolve(null);
   }
+  const lst = { "โท นี่ได้ข่าวว่าพูดมากสุด ในกลุ่มนี่นา" , "โทนี่ ไอฟาย", " โทนี่ ว่างมากหรออ", " โทนี่เลิกส่งหนังโป้สักที" ,"อี ควาย จิน"}
+  var choiceIndex = Math.floor(Math.random() * lst.length)
+
 
   // create a echoing text message
-  const echo = { type: 'text', text: "อี ควาย จิน" };
+  const echo = { type: 'text', text: lst[choiceIndex] };
 
   // use reply API
   return client.replyMessage(event.replyToken, echo);
