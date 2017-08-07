@@ -31,13 +31,14 @@ app.get('/', function(req, res) {
 
 app.use(middleware(config))
 
-app.post('/webhook', (req, res) => {
-  res.json(req.body.events) // req.body will be webhook event object
-  res.send('hi')
-  console.log(res);
+app.post('/webhook', line.middleware(config), (req, res) => {
+  Promise
+    .all(req.body.events.map(handleEvent))
+    .then((result) => res.json(result));
+
 })
 
-// event handler
+
 function handleEvent(event) {
   if (event.type !== 'message' || event.message.type !== 'text') {
     // ignore non-text-message event
@@ -45,11 +46,18 @@ function handleEvent(event) {
   }
 
   // create a echoing text message
-  const echo = { type: 'text', text: "kwai jin" };
+  const echo = { type: 'text', text: "ai kwai jin" };
 
   // use reply API
   return client.replyMessage(event.replyToken, echo);
 }
+
+
+
+
+
+// event handler
+
 
 // listen on port
 app.set('port', process.env.PORT || 5000);
